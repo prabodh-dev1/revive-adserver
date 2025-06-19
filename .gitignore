@@ -1,0 +1,97 @@
+# Docker & Development
+.env
+.env.local
+.env.*.local
+docker-compose.override.yml
+*.log
+
+# Revive AdServer Runtime Files
+# Configuration files (may contain sensitive data)
+src/revive-adserver-*/var/
+src/revive-adserver-*/www/admin/config.php
+src/revive-adserver-*/etc/conf.php
+src/revive-adserver-*/etc/database.inc.php
+
+# Cache and temporary files
+src/revive-adserver-*/var/cache/
+src/revive-adserver-*/var/templates_compiled/
+src/revive-adserver-*/var/plugins/
+src/revive-adserver-*/www/admin/var/
+src/revive-adserver-*/maintenance.log
+
+# Uploaded files and banners
+src/revive-adserver-*/www/images/uploaded/
+src/revive-adserver-*/www/admin/assets/cache/
+
+# Installation files (remove after installation)
+src/revive-adserver-*/www/admin/install.php
+src/revive-adserver-*/www/admin/plugins/install.php
+
+# Logs
+*.log
+logs/
+src/revive-adserver-*/var/debug.log
+src/revive-adserver-*/var/error.log
+
+# Database dumps and backups
+*.sql
+*.dump
+backup/
+backups/
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Node.js (if using any build tools)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# PHP
+composer.phar
+vendor/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker volumes data (PostgreSQL data)
+postgres_data/
+
+# SSL certificates (if any)
+*.key
+*.crt
+*.pem
+*.p12
+*.pfx
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Test files
+test_*
+debug_*
+
+# Local configuration overrides
+local.conf.php
+local.config.php 
