@@ -1,9 +1,10 @@
-# PHP 8.4 + Apache + PostgreSQL Docker Setup
+# Revive AdServer Docker Setup
 
-This Docker Compose setup provides:
-- Apache web server with PHP 8.4
-- PostgreSQL 15 database server
-- Pre-configured networking between services
+This Docker Compose setup provides a complete Revive AdServer environment with:
+- Apache web server with PHP 8.1 (optimized for Revive AdServer compatibility)
+- PostgreSQL 15 database server  
+- Revive AdServer 5.5.2 pre-configured for easy installation
+- All required PHP extensions for ad serving functionality
 
 ## Port Mappings
 - **Apache/PHP**: http://localhost:8081
@@ -16,52 +17,116 @@ This Docker Compose setup provides:
    docker-compose up -d --build
    ```
 
-2. **Access the web application:**
+2. **Access Revive AdServer installer:**
    Open your browser and go to: http://localhost:8081
+   
+   You'll be automatically redirected to the Revive AdServer installation wizard.
 
-3. **Connect to PostgreSQL:**
-   - Host: localhost
-   - Port: 5435
-   - Database: myapp
-   - Username: postgres
-   - Password: password
+3. **Complete the installation:**
+   - Follow the web-based installer
+   - Choose **PostgreSQL** as your database
+   - Use the database connection details below
+
+## Database Connection (for Revive AdServer installer)
+
+When configuring the database during installation, use these settings:
+
+- **Database Type**: PostgreSQL
+- **Host**: `db`
+- **Port**: `5432`
+- **Database**: `myapp`
+- **Username**: `postgres`
+- **Password**: `password`
 
 ## Directory Structure
 
 ```
-phpWorkspace/
+revive-adserver/
 ├── docker-compose.yml          # Main Docker Compose configuration
-├── Dockerfile                  # Custom PHP image with PostgreSQL support
-├── src/                        # PHP application files
-│   └── index.php              # Sample PHP file with PostgreSQL test
-├── init-scripts/              # PostgreSQL initialization scripts
-│   └── init.sql               # Sample database schema and data
-└── apache-config/             # Apache configuration files (optional)
+├── Dockerfile                  # Custom PHP 8.1 image with all required extensions
+├── .gitignore                  # Excludes sensitive files and runtime data
+├── index.php                   # Entry point (redirects to Revive AdServer)
+├── src/                        # Revive AdServer installation
+│   └── revive-adserver-5.5.2/  # Complete Revive AdServer package
+├── init-scripts/               # PostgreSQL initialization scripts
+│   └── init.sql                # Sample database schema
+├── apache-config/              # Apache configuration files (optional)
+└── README.md                   # This file
 ```
 
-## Database Details
+## PHP Extensions Included
 
-- **Database Name**: myapp
-- **Username**: postgres
-- **Password**: password
-- **Internal Network**: Services communicate via Docker network
-- **External Access**: Available on port 5435
+The PHP 8.1 container includes all extensions required by Revive AdServer:
+
+### Required Extensions (✅ Installed)
+- **PDO & PostgreSQL**: `pdo`, `pdo_pgsql`, `pgsql`
+- **MySQL Support**: `mysqli` (for flexibility)
+- **File Handling**: `zip` (for archives and uploads)
+- **Core Extensions**: `json`, `xml`, `pcre`, `spl`, `tokenizer` (built-in PHP 8.1)
+
+### PHP Configuration
+- **File uploads**: Enabled (10MB limit)
+- **Memory limit**: 256MB
+- **Execution time**: 300 seconds (for maintenance tasks)
+- **Error reporting**: Production-ready settings
 
 ## Useful Commands
 
+### Docker Management
 - **Start services**: `docker-compose up -d`
 - **Stop services**: `docker-compose down`
 - **View logs**: `docker-compose logs`
-- **Rebuild**: `docker-compose up -d --build`
-- **Access database**: `docker-compose exec db psql -U postgres -d myapp`
+- **Rebuild containers**: `docker-compose up -d --build`
 
-## PHP Features
+### Database Access
+- **Connect to PostgreSQL**: `docker-compose exec db psql -U postgres -d myapp`
+- **External connection**: localhost:5435
 
-The PHP container includes:
-- PHP 8.4 with Apache
-- PostgreSQL PDO extension
-- Apache mod_rewrite enabled
+### Revive AdServer
+- **Access admin interface**: http://localhost:8081/src/revive-adserver-5.5.2/www/admin/
+- **View delivery scripts**: http://localhost:8081/src/revive-adserver-5.5.2/www/delivery/
 
-## Sample Database
+## Post-Installation
 
-The setup includes a sample `users` table with test data. You can modify the `init-scripts/init.sql` file to customize the initial database structure. 
+After completing the Revive AdServer installation:
+
+1. **Remove installer files** (for security):
+   The installer files are automatically excluded via `.gitignore`
+
+2. **Configure ad zones and campaigns**:
+   Use the admin interface to set up your advertising campaigns
+
+3. **Implement ad delivery**:
+   Use the generated ad tags in your websites
+
+## Troubleshooting
+
+### System Requirements Check
+If the installer shows missing extensions, rebuild the container:
+```bash
+docker-compose down
+docker-compose up --build
+```
+
+### Database Connection Issues
+Ensure the database service is running:
+```bash
+docker-compose logs db
+```
+
+### File Permissions
+If you encounter permission errors, the installer will guide you through the necessary file permission changes.
+
+## Version Information
+
+- **PHP**: 8.1 (optimized for Revive AdServer compatibility)
+- **Apache**: Latest with mod_rewrite enabled
+- **PostgreSQL**: 15
+- **Revive AdServer**: 5.5.2
+
+## Security Notes
+
+- Database credentials are for development only
+- Production deployments should use secure passwords
+- The `.gitignore` file prevents committing sensitive configuration files
+- Remove installer files after setup completion 
