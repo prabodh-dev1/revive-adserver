@@ -10,6 +10,38 @@ This Docker Compose setup provides a complete Revive AdServer environment with:
 - **Apache/PHP**: http://localhost:8081
 - **PostgreSQL**: localhost:5435
 
+## Setup Instructions
+
+### 1. Download Revive AdServer
+
+Before building the containers, you need to download and extract Revive AdServer:
+
+1. **Download Revive AdServer v5.5.2:**
+   ```bash
+   # Download the latest stable release (5.5.2)
+   curl -L -o revive-adserver-5.5.2.tar.gz "https://download.revive-adserver.com/revive-adserver-5.5.2.tar.gz"
+   ```
+   
+   Alternatively, download manually from: https://www.revive-adserver.com/download/
+
+2. **Extract to src folder:**
+   ```bash
+   # Create src directory if it doesn't exist
+   mkdir -p src
+   
+   # Extract the downloaded archive
+   tar -xzf revive-adserver-5.5.2.tar.gz -C src/
+   
+   # Clean up the archive file
+   rm revive-adserver-5.5.2.tar.gz
+   ```
+
+3. **Verify the extraction:**
+   ```bash
+   # You should see the following structure:
+   ls -la src/revive-adserver-5.5.2/
+   ```
+
 ## Quick Start
 
 1. **Build and start the services:**
